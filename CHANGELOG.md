@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed login page of the Console (now redirects straight to the OAuth login).
 - Network Server now records `LinkADRReq` rejections and will not retry rejected values.
 - Improved `NewChannelReq`, `DLChannelReq` and `LinkADRReq` efficiency.
+- Change console field labels from `MAC version` and `PHY version` to `LoRaWAN version` and `Regional Parameters version`
 
 ### Deprecated
 
