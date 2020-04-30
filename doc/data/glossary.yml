@@ -192,7 +192,7 @@ Network Session Key:
   description: After activation, this encryption key is used to secure messages which do not carry a payload.
   link: https://lora-alliance.org/sites/default/files/2018-07/lorawan1.0.3.pdf#page=33
   abbr:
-    - NwSwKey
+    - NwkSKey
 
 Application Key:
   description: A device specific encryption key used during OTAA to generate the AppSKey (in LoRaWAN 1.1x) or both the NwkSKey and AppSKey in LoRaWAN 1.0x. This is usually pre provisioned by the device manufacturer, but can also be created by the user.
