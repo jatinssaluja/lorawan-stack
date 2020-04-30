@@ -13,7 +13,7 @@
 #    - <Alt term 2>
 
 Gateway:
-  description: Gateways form the bridge between devices and Network Servers. Devices use low power networks like LoRaWAN to connect to the Gateway, while the Gateway uses high bandwidth networks like WiFi, Ethernet or Cellular to connect to The Things Network.
+  description: Gateways form the bridge between devices and Network Servers. Devices use low power networks like LoRaWAN to connect to the Gateway, while the Gateway uses high bandwidth networks like WiFi, Ethernet or Cellular to connect to a Network Server.
   link: https://www.thethingsnetwork.org/docs/gateways/
 
 Gateway ID:
@@ -73,7 +73,7 @@ Physical Layer:
     - PHY
 
 Frequency Plan:
-  description: Frequencies used in geographical areas, based on what is specified in Regional Parameters.
+  description: Frequencies used in geographical areas, based on what is specified in the Regional Parameters document, published by the LoRa Alliance.
   link: https://lora-alliance.org/lorawan-for-developers
   abbr:
     - FP
@@ -116,7 +116,7 @@ Bandwidth:
   link: https://www.thethingsnetwork.org/docs/lorawan/modulation-data-rate.html
 
 Spreading Factor:
-  description: Making the spreading factor 1 step lower (from SF10 to SF9) allows you to send 2x more bytes in the same time. Lowering the spreading factor makes it more difficult for the gateway to receive a transmission, as it will be more sensitive to noise.
+  description: The transmission speed or Data Rate of a LoRaWAN message, ranging from SF7 (highest Data Rate) to SF12 (lowest Data Rate). Making the spreading factor 1 step lower (from SF10 to SF9) allows you to roughly send the same amount of data use half the time on air. Lowering the spreading factor makes it more difficult for the gateway to receive a transmission, as it will be more sensitive to noise.
   link: https://www.thethingsnetwork.org/docs/lorawan/modulation-data-rate.html
   abbr:
     - SF
