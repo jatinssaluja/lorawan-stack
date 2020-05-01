@@ -211,3 +211,9 @@ Activation by Personalisation:
   link: https://lora-alliance.org/sites/default/files/2018-07/lorawan1.0.3.pdf#page=37
   abbr:
     - ABP
+
+Dwell time:
+  description: The time needed to transmit a LoRaWAN message. In some regions a maximum allowed dwell time is configured to limit transmission time, typically 400ms.
+
+Dwell time configuration:
+  description: The Dwell time restrictions are configurable for each frequency plan. In regions where dwell time limitations are optional, they're disabled by default.
