@@ -4,19 +4,19 @@ description: ""
 weight: 1
 ---
 
-The Cisco Wireless Gateway for LoRaWAN's technical specifications can be found in [the official documentation](https://www.cisco.com/c/en/us/products/routers/wireless-gateway-lorawan/). This page guides you to connect it to {{% tts %}}.
+The **Cisco Wireless Gateway for LoRaWAN** technical specifications can be found in [Cisco's official documentation](https://www.cisco.com/c/en/us/products/routers/wireless-gateway-lorawan/). This page guides you to connecting the gateway to {{% tts %}}.
 
 ## Prerequisites
 
-1. User account on {{% tts %}} with rights to create Gateways.
+1. User account on {{% tts %}} with rights to create gateways.
 2. Cisco Wireless Gateway for LoRaWAN with latest firmware (version `2.0.32` or higher), connected to the internet (or your local network) via ethernet.
 3. [Console cable from USB to RJ45](https://www.cablesandkits.com/accessories/console-cables/usb-rj45-6ft/pro-9900/).
 
 ## Registration
 
-Create a gateway by following the instructions for the [Console]({{< ref "/guides/getting-started/console#create-gateway" >}}) or the [CLI]({{< ref "/guides/getting-started/cli#create-gateway" >}}).
+Create a gateway using the [Console]({{< ref "/guides/getting-started/console#create-gateway" >}}) or the [CLI]({{< ref "/guides/getting-started/cli#create-gateway" >}}).
 
-The **EUI** is derived from the **MAC_ADDRESS** that can be found on the back panel of the gateway. To get the EUI from the MAC_ADDRESS insert FFFE after the first 6 characters to make it a 64bit EUI.
+The **EUI** is derived from the **MAC_ADDRESS** that can be found on the back panel of the gateway. To get the EUI from the MAC_ADDRESS insert `FFFE` **after the first 6 characters** to make it a 64bit EUI.
 
 > Note: If your **MAC_ADDRESS** is `5B:A0:CB:80:04:2B` then the **EUI** is `5B A0 CB FF FE 80 04 2B`.
 
@@ -24,7 +24,7 @@ The **Gateway Server Address** is the same as what you use instead of `thethings
 
 ## Configuration
 
-Plug the RJ45 end of the cable in the Console port of the gateway, and the USB port to your computer.
+Plug the RJ45 end of the cable in the **Console** port at the side of the gateway, and the USB port to your computer.
 
 If you are using MacOS or Linux, connect to the Gateway by opening a terminal and a executing the following commands:
 
@@ -88,7 +88,10 @@ You can test your Internet configuration with the `ping` command, for example pi
 Gateway# ping ip 8.8.8.8
 ```
 
-> Note: To see more information about the gateway's IP and the network, you can use `show interfaces FastEthernet 0/1`, `show ip interfaces FastEthernet 0/1` or `show ip route`.
+> Note: To see more information about the gateway's IP and the network, you can use 
+> `show interfaces FastEthernet 0/1`
+> `show ip interfaces FastEthernet 0/1` or
+> `show ip route`.
 
 #### Date and Time
 
@@ -148,8 +151,8 @@ SSI_OFFSET: -204.00,-204.40
 ORA_REVISION_NUM: C0
 SSI_OFFSET_AUS: -203.00,-204.00
 
-adio status: 
-n
+radio status:
+on
 ```
 
 If the radio is off, enable it with
@@ -168,13 +171,13 @@ To prevent unauthorized access to the gateway, you'll want to set up user authen
 
 To enable this secret system, you can use the following commands:
 
-+ `configure terminal` to enter global configuration mode.
++ `Gateway# configure terminal` to enter global configuration mode.
 + To set the secret, you can use different commands:
- `enable secret <secret>` to enter in plaintext the secret you wish to set, instead of `<secret>`. *Note*: Special characters cannot be used in plain secrets.
- `enable secret 5 <secret>` to enter the secret **md5-encrypted**, instead of `<secret>`.
- `enable secret 8 <secret>` to enter the secret **SHA512-encrypted**, instead of `<secret>`.
-+ `exit` to exit global configuration mode.
-+ `copy running-config startup-config` to save the configuration.
+ `Gateway(config)# enable secret <secret>` to enter in plaintext the secret you wish to set, instead of `<secret>`. *Note*: Special characters cannot be used in plain secrets.
+ `Gateway(config)# enable secret 5 <secret>` to enter the secret **md5-encrypted**.
+ `Gateway(config)# enable secret 8 <secret>` to enter the secret **SHA512-encrypted**.
++ `Gateway(config)# exit` to exit global configuration mode.
++ `Gateway#copy running-config startup-config` to save the configuration.
 
 #### Verification
 
@@ -217,47 +220,23 @@ Copy the packet forwarder to **/etc/pktfwd**:
 bash-3.2# cp /tools/pkt_forwarder /etc/pktfwd/pkt_forwarder
 ```
 
-Cisco provides a list of configuration templates. To list the available templates:
+**Retrieve configuration from the Gateway Configuration Server**
+The Gateway Configuration Server can be used to retrieve a proper `global_conf.json` configuration file for your gateway.
 
-> Note: choose the Choose the file applicable to your region.
+You will need a Gateway API key with the `View gateway information` right enabled. Instructions can be found in the relevant sections of the [Console]({{< ref "/guides/getting-started/console#create-gateway" >}}) or the [CLI]({{< ref "/guides/getting-started/cli#create-gateway" >}}) getting started guides.
 
-```bash
-bash-3.2# ls -l /tools/templates
-otal 136
-rwxr-xr-x 6553455341323 Oct 13:30 config_loc_dual_antenna_8ch_full_diversity_EU868.json
-rwxr-xr-x 6553455341248 Oct 13:30 config_loc_dual_antenna_8ch_full_diversity_JP920.json
-rwxr-xr-x 6553455341323 Oct 13:30 config_loc_dual_antenna_8ch_partial_diversity_EU868.json
-rwxr-xr-x 6553455347993 Oct 13:30 config_loc_single_antenna_16ch_EU868.json
-rwxr-xr-x 6553455347080 Oct 13:30 config_loc_single_antenna_16ch_US915.json
-rwxr-xr-x 6553455343519 Oct 13:30 config_loc_single_antenna_64ch_US915.json
-rwxr-xr-x 6553455343635 Oct 13:30 config_loc_single_antenna_full_duplex_64ch_US915.json
-rwxr-xr-x 6553455347478 Oct 13:30 config_test_dual_antenna_56ch_partial_diversity_EU868.json
-rwxr-xr-x 6553455344148 Oct 13:30 config_test_single_antenna_64ch_64x1_EU868.json
-rwxr-xr-x 6553455344148 Oct 13:30 config_test_single_antenna_64ch_8x8_EU868.json
+
+Make sure to replace `thethings.example.com`, `GATEWAY_ID` and `GTW_API_KEY` with your **server address**, **Gateway ID** and **Gateway API Key ID** which can be found using your Console or CLI.
+
+```
+bash-3.2# curl -k XGET "https://thethings.example.com/api/v3/gcs/gateways/GATEWAY_ID/semtechudp/global_conf.json" -H "Authorization: Bearer GTW_API_KEY" > ~/config.json
 ```
 
-Copy the configuration template **config_loc_single_antenna_16ch_<YOUR_REGION>.json** or **config_loc_dual_antenna_8ch_full_diversity_<YOUR_REGION>.json** as **config.json** to **/etc/pktfwd** 
+Copy the configuration template as **config.json** to **/etc/pktfwd** 
 
 ```bash
-bash-3.2# cp /tools/templates/config_loc_single_antenna_16ch_<YOUR_REGION>.json /etc/pktfwd/config.json
+bash-3.2# cp config.json /etc/pktfwd/config.json
 ```
-
-Edit the configuration using a text editor, such as **vi**:
-
-```bash
-bash-3.2# vi /etc/pktfwd/config.json
-```
-
->Note: Press the `i` key on your keyboard to start insert mode. Once finished editing, press `ESC` and enter `:wq` to write the file and quit.
-
-Edit the **gateway_conf** parameters.
-
-1. **gateway_ID**: The **EUI** that you used for registration.
-2. **server_address**: The **Gateway Server Address** that you used for registration.
-3. **serv_port_up**: UDP upstream port of the Gateway Server, typically **1700**.
-4. **serv_port_down**: UDP downstream port of the Gateway Server, typically **1700**.
-
-Save the configuration.
 
 You can now test the packet forwarder by executing:
 
@@ -265,7 +244,7 @@ You can now test the packet forwarder by executing:
 bash-3.2# /etc/pktfwd/pkt_forwarder -c /etc/pktfwd/config.json -g/dev/ttyS1
 ```
 
-Your gateway will connect to {{% tts %}} after a couple of seconds.
+Your gateway will connect to {{% tts %}} after a couple of minutes.
 
 
 Now that we know the packet forwarder is running, let's make it run automatically. Use this command:
@@ -281,8 +260,6 @@ Then copy paste the code below.
 > Note: Replace `things.example.com` with the name of your network after `nslookup`.
 
 ```bash
-#!/bin/sh
-
 SCRIPT_DIR=/etc/pktfwd
 SCRIPT=$SCRIPT_DIR/pkt_forwarder
 CONFIG=$SCRIPT_DIR/config.json
@@ -294,48 +271,49 @@ export NETWORKIP=$(nslookup things.example.com | grep -E -o "([0-9]{1,3}[\.]){3}
 sed -i 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'$NETWORKIP'/g' "$CONFIG"
 
 start() {
-cho "Starting pkt_forwarder"
-d $SCRIPT_DIR
-tart-stop-daemon \
--start \
--make-pidfile \
--pidfile "$PIFDILE" \
--background \
--startas /bin/bash -- -c "exec $SCRIPT -- -c $CONFIG -g/dev/ttyS1 >> $LOGFILE 2>&1"
-cho $?
+  echo "Starting pkt_forwarder"
+  cd $SCRIPT_DIR
+  start-stop-daemon \
+        --start \
+        --make-pidfile \
+        --pidfile "$PIFDILE" \
+        --background \
+        --startas /bin/bash -- -c "exec $SCRIPT -- -c $CONFIG -g /dev/ttyS1 >> $LOGFILE 2>&1"
+  echo $?
 }
 
 stop() {
-cho "Stopping pkt_forwarder"
-tart-stop-daemon \
--stop \
--oknodo \
--quiet \
--pidfile "$PIDFILE"
+  echo "Stopping pkt_forwarder"
+  start-stop-daemon \
+        --stop \
+        --oknodo \
+        --quiet \
+        --pidfile "$PIDFILE"
 }
 
 restart() {
-top
-leep 1
-tart
+  stop
+  sleep 1
+  start
 }
 
 case "$1" in
-tart)
-tart
-;
-top)
-top
-;
-estart|reload)
-estart
-;
-)
-cho "Usage: $0 {start|stop|restart}"
-xit 1
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart|reload)
+    restart
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
 esac
 
 exit $?
+
 ```
 
 Then make the init script executable:
@@ -363,3 +341,5 @@ bash-3.2# tail -100 var/log/pkt_forwarder.log
 > Note: GPS warnings may appear, this means the packet forwarder started.
 
 If the radio failed to start, disconnect and reconnect the power supply to power-cycle the gateway.
+
+For further information and troubleshooting, have a look at [Cisco's Configuration Guide](https://www.cisco.com/c/en/us/td/docs/routers/interface-module-lorawan/software/configuration/guide/b_lora_scg.pdf).
